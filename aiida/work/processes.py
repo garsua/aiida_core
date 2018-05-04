@@ -212,8 +212,8 @@ class Process(plumpy.Process):
     def on_entered(self, from_state):
         super(Process, self).on_entered(from_state)
         self.update_node_state(self._state)
-        if self._enable_persistence and not self._state.is_terminal() and not self._state.label == ProcessState.CREATED:
-            self.call_soon(self.runner.persister.save_checkpoint, self)
+        if self._enable_persistence and not self._state.is_terminal():
+            self.runner.persister.save_checkpoint(self)
 
     @override
     def on_terminated(self):
@@ -238,7 +238,7 @@ class Process(plumpy.Process):
         Log the exception by calling the report method with formatted stack trace from exception info object
         """
         super(Process, self).on_except(exc_info)
-        self.report(traceback.format_exc())
+        self.report(''.join(traceback.format_exception(*exc_info)))
 
     @override
     def on_finish(self, result, successful):
