@@ -20,7 +20,7 @@ class AddAndMultiplyWorkChain(WorkChain):
         self.ctx.sum = self.inputs.a + self.inputs.b
 
     def multiply(self):
-        self.ctx.product = self.ctx.sum * self.ctx.sum
+        self.ctx.product = self.ctx.sum * self.inputs.c
 
     def results(self):
         self.out('result', Int(self.ctx.product))
